@@ -2,6 +2,7 @@
 This code implements algorithms related to prime, natural numbers (or strings). 
 '''
 import math
+import numpy as np
 
 # Algorithm 1: Determinisitc policy to see if number is prime
 # Input(s): natural number
@@ -132,6 +133,20 @@ def kadane(num):
 			track = ttl
 	return track
 
+# Algorithm 8: Von Mises Iteration (produces greatest eigenvalue of matrix)
+# Input(s): Matrix (must be diagonalizable), size of matrix, epoch
+# Output(s): largest eigenvalue, and associated eigen vector
+# Inspiration: https://www.scribd.com/document/264003151/Power-Method-Proof
+def vonMisesIter(matrix, size, epoch):
+	X = np.random.rand(size, 1)
+	eival = 0
+	for _ in range(epoch):
+		Y = np.matmul(matrix, X)
+		eival = max(abs(Y))
+		X = np.divide(Y, eival)
+	return eival, X
+
+
 #######################################################
 ### TESTS
 #######################################################
@@ -183,6 +198,29 @@ def kadaneTest():
 	assert kadane([-1, -2, 3, 4, 5, -1, -5, -3]) == 12
 	assert kadane([-1, 5, -1, 4, 5, -1, -5, -3]) == 13
 
+def vonMisesIterTest():
+	def withinLimits(result, tol, actual, vector):
+		if vector == False:
+			if result <= actual + tol and result >= actual - tol:
+				return True
+			return False
+		else:
+			for itm in range(len(actual)):
+				if result[itm] > actual[itm] + tol and result[itm] < actual[itm] - tol:
+					return False
+			return True
+	tol = 10 ** -3
+	matrix1 = np.array([[-2, -4, 2 ], [-2, 1, 2], [4, 2, 5]])
+	a, b = vonMisesIter(matrix1, 3, 100)
+	assert withinLimits(a, tol, 6, False) == True
+	assert withinLimits(b, tol, [1, 6, 16], True) == True
+
+	matrix2 = np.array([[2, 2], [5, -1]])
+	a, b = vonMisesIter(matrix2, 2, 1000)
+	assert withinLimits(a, tol, 4, False) == True
+	assert withinLimits(b, tol, [1, 1], True) == True
+
+
 def mainTest():
 	isPrimeTest()
 	primeListTest()
@@ -191,5 +229,6 @@ def mainTest():
 	stringSearchTest()
 	rabinKarpTest()
 	kadaneTest()
+	vonMisesIterTest()
 
 mainTest()
