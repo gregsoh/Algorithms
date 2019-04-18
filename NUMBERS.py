@@ -1,5 +1,5 @@
 '''
-This code implements algorithms related to prime numbers (or natural numbers). 
+This code implements algorithms related to prime, natural numbers (or strings). 
 '''
 import math
 
@@ -53,7 +53,6 @@ def fastPower(a, b):
 			b /= 2
 	return r
 
-
 # Algorithm 4: Square root -- \sqrt{k} using Newton's method
 # Input(s): num, x0, numIter
 # Output(s): approximate value of \sqrt{k}
@@ -61,6 +60,77 @@ def squareRoot(num, x0, numIter):
 	for itr in range(numIter):
 		x0  += - (x0 ** 2 - num) / (2 * x0) 
 	return x0
+
+# Algorithm 5: String matching algorithm (Knuth-Morris-Pratt algorithm)
+# Input(s): string, pattern
+# Output(s): index of match
+def stringSearch(string, pattern):
+	s, p = list(string), list(pattern)
+
+	# preprocessing
+	length = len(p)
+	v = [0 for _ in range(length)]
+	i, j = 0, 1
+	for j in range(1, length):
+		if p[i] == p[j]:
+			v[j] = i + 1
+			i += 1
+		else:
+			if i != 0:
+				i = v[i - 1]
+
+	# main algorithm
+	track = 0
+	for idx, char in enumerate(s):
+		if char == p[track]: 
+			track += 1
+		else:
+			if track >= 1:
+				track = v[track - 1]
+		if track == length:
+			return idx - length + 1
+	return -1
+
+# Algorithm 6: Rabin-Karp String Matching Algorithm
+# Input(s): string, pattern, prime #
+# Output(s): is there a match?
+def rabinKarp(string, pattern, prime):
+	s, p = list(string), list(pattern)
+	ttl = 0
+	for idx, itm in enumerate(p):
+		ttl += ord(itm) * prime ** (idx)
+
+	check = 0
+	for idx in range(len(s) - len(p)):
+		if idx == 0:
+			win = s[0 : len(p)]
+			for idx2, itm in enumerate(win):
+				check += ord(itm) * prime ** (idx2)
+		else:
+			check -= ord(s[idx - 1])
+			check /= prime 
+			check += ord(s[idx + len(p) - 1]) * prime ** (len(p) - 1)
+
+		if check == ttl:
+			confirm = True
+			for itr in range(len(p)):
+				if p[itr] != s[idx + itr]:
+					confirm = False
+			if confirm == True:
+				return True
+	return False
+
+# Algorithm 7: Kadane's Algorithm (solution to common problem: Largest Sum Contiguous Subarray)
+# Input(s): list of positive or negative numbers
+# Output(s): max value of contiguous subarray
+def kadane(num):
+	track, ttl = 0, 0
+	for idx in range(len(num)):
+		ttl += num[idx]
+		ttl = max(ttl, 0)
+		if ttl > track:
+			track = ttl
+	return track
 
 #######################################################
 ### TESTS
@@ -92,10 +162,34 @@ def squareRootTest():
 	assert withinLimits(squareRoot(17, 3, numIter), tol, 17) == True
 	assert withinLimits(squareRoot(19, 5, numIter), tol, 19) == True
 
+def stringSearchTest():
+	assert stringSearch("abcdefg", "abc") == 0
+	assert stringSearch("abcdefg", "cde") == 2
+	assert stringSearch("abcdefg", "efg") == 4
+	assert stringSearch("abcdefg", "sfh") == -1
+	assert stringSearch("abcdefgabj", "abj") == 7
+	assert stringSearch("abcdefgabc", "abc") == 0
+
+def rabinKarpTest():
+	assert rabinKarp("abc", "b", 5) == True
+	assert rabinKarp("afjz", "fa", 11) == False
+	assert rabinKarp("afjz", "fj", 11) == True
+	assert rabinKarp("abcdesdfs1fg", "fas", 11) == False
+	assert rabinKarp("abcdesdfs1fgadkjhafjkhkj2h34jk23k4hj23h4jkhads", "adflksdnfkjadhfjksajdkfb", 101) == False
+	assert rabinKarp("4jk23k4hj23h4jkhadsasdfasdf", "j23h4jkhads", 23) == True
+
+def kadaneTest():
+	assert kadane([-2, -3, 4, -1, -2, 1, 5, -3]) == 7
+	assert kadane([-1, -2, 3, 4, 5, -1, -5, -3]) == 12
+	assert kadane([-1, 5, -1, 4, 5, -1, -5, -3]) == 13
+
 def mainTest():
 	isPrimeTest()
 	primeListTest()
 	fastPowerTest()
 	squareRootTest()
+	stringSearchTest()
+	rabinKarpTest()
+	kadaneTest()
 
 mainTest()

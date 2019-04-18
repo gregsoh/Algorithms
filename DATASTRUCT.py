@@ -1,7 +1,6 @@
 '''
 This code implements common data structs.  
 '''
-
 # DataStruct 1: Queue
 class myQueue:
 	def __init__(self):
@@ -64,7 +63,6 @@ def stackTest():
 	for itm in range(2):
 		s.pop()
 	assert s.order() == [0, 0, 1, 2]
-
 
 def mainTest():
 	queueTest()

@@ -115,7 +115,7 @@ def mergeSort(arr):
 		return v
 	return arr
 
-# Algorithm 5: Heap Sort
+# Algorithm 6: Heap Sort
 # Input(s): array of numbers
 # Output(s): sorted array
 # Notes: O(n logn); O(1) Aux Space; in-place; not stable
@@ -150,6 +150,22 @@ def heapSort(arr):
 		minHeap(arr, size, 0)
 	return arr
 
+# Algorithm 7: Radix Sort
+# Input(s): array of non-negative numbers, radix, num characters of max element k
+# Output(s): sorted array
+# Notes: O(nk) n words, k characters; O(n + r) Aux Space, where r is radix; not in-place; stable
+def radixSort(arr, radix, k):
+	num = len(arr)
+	for k_i in range(k):
+		pop = dict(zip(radix, [[] for i in range(len(radix))]))
+		for n in arr:
+			pop[(n // (10 **  k_i)) % 10].append(n)
+		newarr = []
+		for key, val in pop.items():
+			for v in val:
+				newarr.append(v)
+		arr = newarr
+	return arr
 
 #######################################################
 ### TESTS
@@ -199,6 +215,13 @@ def heapSortTest():
 	assert heapSort(t3) == r3; assert heapSort(t4) == r4
 	assert heapSort(t5) == r5
 
+def radixSortTest():
+	assert radixSort([23, 34, 11], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == [11, 23, 34]
+	assert radixSort([23, 34, 11, 100], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 3) == [11, 23, 34, 100]
+	assert radixSort([23, 34, 10, 103], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 3) == [10, 23, 34, 103]
+	assert radixSort([23, 23, 10, 34], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == [10, 23, 23, 34]
+	assert radixSort([2, 23, 117, 3423], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == [2, 23, 117, 3423]
+
 def mainTest():
 	selectionSortTest()
 	bubbleSortTest()
@@ -206,5 +229,6 @@ def mainTest():
 	quickSortTest()
 	mergeSortTest()
 	heapSortTest()
-	
+	radixSortTest()
+
 mainTest()
