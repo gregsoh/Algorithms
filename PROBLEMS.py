@@ -31,5 +31,5 @@ def simulate():
 	print(np.mean(r), np.min(r))
 	plt.hist(r, bins = 100)
 	plt.show()
-	
+
 simulate()

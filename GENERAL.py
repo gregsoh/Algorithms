@@ -1,0 +1,10 @@
+	primeListTest()
+	fastPowerTest()
+	squareRootTest()
+	stringSearchTest()
+	rabinKarpTest()
+	kadaneTest()
+	vonMisesIterTest()
+	floydCycleTest()
+
+mainTest()
