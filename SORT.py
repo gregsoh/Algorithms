@@ -2,6 +2,19 @@
 This code implements sorting algorithms. 
 v in the code often refers to temporary variable
 '''
+# Algorithm 0: Insertion Sort
+# Input(s): array of numbers
+# Output(s): sorted array
+# Notes: O(N^2) time; O(1) Aux Space; in-place
+def insertionSort(arr):
+	for idx in range(1, len(arr)):
+		key = arr[idx]
+		pointer = idx - 1
+		while pointer >= 0 and arr[pointer] > key:
+			arr[pointer + 1] = arr[pointer]
+			pointer -= 1
+		arr[pointer + 1] = key
+	return arr
 
 # Algorithm 1: Selection Sort
 # Input(s): array of numbers
@@ -170,6 +183,13 @@ def radixSort(arr, radix, k):
 #######################################################
 ### TESTS
 #######################################################
+def insertionSortTest():
+	t1, t2, t3, t4 = [2], [3, 2], [3, 9, -2], [3, 2, 1, 1, 0] #tests
+	r1, r2, r3, r4 = [2], [2, 3], [-2, 3, 9], [0, 1, 1, 2, 3] #expected results
+
+	assert insertionSort(t1) == r1; assert insertionSort(t2) == r2
+	assert insertionSort(t3) == r3; assert insertionSort(t4) == r4
+
 def selectionSortTest():
 	t1, t2, t3, t4 = [2], [3, 2], [3, 9, -2], [3, 2, 1, 1, 0] #tests
 	r1, r2, r3, r4 = [2], [2, 3], [-2, 3, 9], [0, 1, 1, 2, 3] #expected results
@@ -223,6 +243,7 @@ def radixSortTest():
 	assert radixSort([2, 23, 117, 3423], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == [2, 23, 117, 3423]
 
 def mainTest():
+	insertionSortTest()
 	selectionSortTest()
 	bubbleSortTest()
 	countSortTest()

@@ -6,6 +6,19 @@ import math
 import numpy as np
 from DATASTRUCT import linkedlist, node
 
+# Algorithm implementing Horner's Rule
+# Input(s): list of coefficients and x
+# Output(s): value
+# Comments: O(N)
+def horner(coeff, x):
+	y = 0
+	pointer = len(coeff) - 1
+	while pointer >= 0:
+		y = x * y + coeff[pointer]
+		pointer -= 1
+	return y
+
+
 # Algorithm 1: Determinisitc policy to see if number is prime
 # Input(s): natural number
 # Output(s): true/false if number is prime
