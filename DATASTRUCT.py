@@ -43,13 +43,16 @@ class node:
 	def __init__(self, value):
 		self.value = value
 		self.next = None
+		
 class linkedlist:
 	def __init__(self):
 		self.head = None
+
 	def insert(self, value):
 		new = node(value)
 		new.next = self.head
 		self.head = new
+
 	def check(self):
 		v = self.head
 		steps = 1
@@ -61,7 +64,7 @@ class linkedlist:
 	def checkHead(self):
 		print(self.head.value)
 
-	# This function is used in GENERAL when I test Floyd Algorithm
+	# This function is used in GENERAL.py when I test Floyd Algorithm
 	def connect(self, nodeNum1, nodeNum2): #nodeNum2 > nodeNum1
 		v, k = self.head, self.head
 		for _ in range(nodeNum2 - 1):

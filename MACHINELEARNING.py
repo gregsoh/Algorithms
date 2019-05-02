@@ -5,14 +5,16 @@ import random, math
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Algorithm 1: Linear Regression (basic)
-# Input(s): list of x, list of y, number of data points
-# Output(s): slope and intercept
-# Note: We are doing ordinary least squares with the error = (difference) ^ 2
-#       Methodology employed is to take partial derivatives and use Ax = b to solve the equation 
-#       Understanding of matrix determinants, inverses is necessary
-#       Let the equation be y = mx + b
-#.      Inspiration: https://stackoverflow.com/questions/27092203/how-do-i-determine-the-coefficients-for-a-linear-regression-line-in-matlab
+'''
+Algorithm 1: Linear Regression (basic)
+Input(s): list of x, list of y, number of data points
+Output(s): slope and intercept
+Note: We are doing ordinary least squares with the error = (difference) ^ 2
+       Methodology employed is to take partial derivatives and use Ax = b to solve the equation 
+       Understanding of matrix determinants, inverses is necessary
+       Let the equation be y = mx + b
+       Inspiration: https://stackoverflow.com/questions/27092203/how-do-i-determine-the-coefficients-for-a-linear-regression-line-in-matlab
+'''
 def basicLinearRegression(x, y, num):
 	sum_x, sum_x2 = sum(x), sum([itm ** 2 for itm in x])
 	sum_y, sum_y2 = sum(y), sum([itm ** 2 for itm in y])
@@ -22,14 +24,16 @@ def basicLinearRegression(x, y, num):
 	b = (sum_product * sum_x - sum_y * sum_x2) / ((sum_x) ** 2 - num * sum_x2)
 	return m, b
 
-# Algorithm 2: Multi Regression (basic)
-# Input(s): list of x1, list of x2, list of y, number of data points
-# Output(s): two weights and intercept
-# Note: We are doing ordinary least squares with the error = (difference) ^ 2
-#       Methodology employed is to stochastic gradient descent/ batch gradient descent
-#       Understanding of partial derivatives and back propagation is necessary
-#       Let the equation be y = w1x1 w2x2 + b
-#       Inspiration: https://towardsdatascience.com/step-by-step-tutorial-on-linear-regression-with-stochastic-gradient-descent-1d35b088a843
+'''
+Algorithm 2: Multi Regression (basic)
+Input(s): list of x1, list of x2, list of y, number of data points
+Output(s): two weights and intercept
+Note: We are doing ordinary least squares with the error = (difference) ^ 2
+       Methodology employed is to stochastic gradient descent/ batch gradient descent
+       Understanding of partial derivatives and back propagation is necessary
+       Let the equation be y = w1x1 w2x2 + b
+       Inspiration: https://towardsdatascience.com/step-by-step-tutorial-on-linear-regression-with-stochastic-gradient-descent-1d35b088a843
+'''
 def basicMultiRegression(x1, x2, y, num):
 	def batchProcessing(numInBatch, x1, x2, y, num):
 		numBatches = num // numInBatch
@@ -80,11 +84,13 @@ def basicMultiRegression(x1, x2, y, num):
 			w2 -= eta * sum(dw2) / numElem
 	return b, w1, w2
 
-# Algorithm 3: Neural Network (basic)
-# Input(s): list of x, list of y, # data, # features, # outputs, activation version, epoch
-# Output(s): w1, w2, bias1 and bias2 
-# Note: This method uses numpy matrices to solve (reduces computational time)
-#		"act" stands for activation function. 0 is sigmoid and 1 is tanh. 
+'''
+Algorithm 3: Neural Network (basic)
+Input(s): list of x, list of y, # data, # features, # outputs, activation version, epoch
+Output(s): w1, w2, bias1 and bias2 
+Note: This method uses numpy matrices to solve (reduces computational time)
+		"act" stands for activation function. 0 is sigmoid and 1 is tanh. 
+'''
 def basicNeuralNetwork(x, y, numData, numFeature, numOutput, act, epoch):
 	def activation(x, version):
 		def sig(x):

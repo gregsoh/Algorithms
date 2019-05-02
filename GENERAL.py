@@ -1,15 +1,18 @@
 '''
 This code implements general algorithms I find interesting. 
-There are more that I have seen but I did not have the opportunity to code it up myself. I will add it to this code base whenever I have the time. 
+There are more algorithms I find interesting but I did not have the opportunity to code it up myself. 
+I will add it to this code base whenever I have the time. 
 '''
 import math
 import numpy as np
 from DATASTRUCT import linkedlist, node
 
-# Algorithm implementing Horner's Rule
-# Input(s): list of coefficients and x
-# Output(s): value
-# Comments: O(N)
+'''
+Algorithm 1: implementing Horner's Rule
+Input(s): list of coefficients and x
+Output(s): value
+Comments: O(N)
+'''
 def horner(coeff, x):
 	y = 0
 	pointer = len(coeff) - 1
@@ -18,10 +21,11 @@ def horner(coeff, x):
 		pointer -= 1
 	return y
 
-
-# Algorithm 1: Determinisitc policy to see if number is prime
-# Input(s): natural number
-# Output(s): true/false if number is prime
+'''
+Algorithm 2: Determinisitc policy to see if number is prime
+Input(s): natural number
+Output(s): true/false if number is prime
+'''
 def isPrime(num):
 	if num == 1:
 		return False
@@ -32,14 +36,18 @@ def isPrime(num):
 		c += 1
 	return True
 
-# Algorithm 2: Sieve of Eratosthenes -- find all primes <= a number 
-# Input(s): natural number
-# Output(s): list of primes
+'''
+Algorithm 3: Sieve of Eratosthenes -- find all primes <= a number 
+Input(s): natural number
+Output(s): list of primes
+'''
 def primeList(num):
 	if num == 1:
 		return []
-	if num == 2 or num == 3:
+	if num == 2:
 		return [2]
+	if num == 3: 
+		return [2, 3]
 	prime = [1 for i in range(num + 1)]
 	pop, c = [], 2
 	while c * c <= num:
@@ -53,9 +61,11 @@ def primeList(num):
 			pop.append(k)
 	return pop
 
-# Algorithm 3: Fast Power -- calculating a ** b efficiently
-# Input(s): a, b; both natural numbers
-# Output(s): a ** b
+'''
+Algorithm 4: Fast Power -- calculating a ** b efficiently
+Input(s): a, b; both natural numbers
+Output(s): a ** b
+'''
 def fastPower(a, b):
 	r = 1
 	while b > 0:
@@ -68,18 +78,21 @@ def fastPower(a, b):
 			a = a ** 2
 			b /= 2
 	return r
-
-# Algorithm 4: Square root -- \sqrt{k} using Newton's method
-# Input(s): num, x0, numIter
-# Output(s): approximate value of \sqrt{k}
+'''
+Algorithm 5: Square root -- sqrt{k} using Newton's method
+Input(s): num, x0, numIter
+Output(s): approximate value of sqrt{k}
+'''
 def squareRoot(num, x0, numIter):
 	for itr in range(numIter):
 		x0  += - (x0 ** 2 - num) / (2 * x0) 
 	return x0
 
-# Algorithm 5: String matching algorithm (Knuth-Morris-Pratt algorithm)
-# Input(s): string, pattern
-# Output(s): index of match
+'''
+Algorithm 6: String matching algorithm (Knuth-Morris-Pratt algorithm)
+Input(s): string, pattern
+Output(s): index of match
+'''
 def stringSearch(string, pattern):
 	s, p = list(string), list(pattern)
 
@@ -107,9 +120,11 @@ def stringSearch(string, pattern):
 			return idx - length + 1
 	return -1
 
-# Algorithm 6: Rabin-Karp String Matching Algorithm
-# Input(s): string, pattern, prime #
-# Output(s): is there a match?
+'''
+Algorithm 7: Rabin-Karp String Matching Algorithm
+Input(s): string, pattern, prime #
+Output(s): is there a match?
+'''
 def rabinKarp(string, pattern, prime):
 	s, p = list(string), list(pattern)
 	ttl = 0
@@ -136,9 +151,11 @@ def rabinKarp(string, pattern, prime):
 				return True
 	return False
 
-# Algorithm 7: Kadane's Algorithm (solution to common problem: Largest Sum Contiguous Subarray)
-# Input(s): list of positive or negative numbers
-# Output(s): max value of contiguous subarray
+'''
+Algorithm 8: Kadane's Algorithm (solution to common problem: Largest Sum Contiguous Subarray)
+Input(s): list of positive or negative numbers
+Output(s): max value of contiguous subarray
+'''
 def kadane(num):
 	track, ttl = 0, 0
 	for idx in range(len(num)):
@@ -148,10 +165,12 @@ def kadane(num):
 			track = ttl
 	return track
 
-# Algorithm 8: Von Mises Iteration (produces greatest eigenvalue of matrix)
-# Input(s): Matrix (must be diagonalizable), size of matrix, epoch
-# Output(s): largest eigenvalue, and associated eigen vector
-# Inspiration: https://www.scribd.com/document/264003151/Power-Method-Proof (proof is attached)
+'''
+Algorithm 9: Von Mises Iteration (produces greatest eigenvalue of matrix)
+Input(s): Matrix (must be diagonalizable), size of matrix, epoch
+Output(s): largest eigenvalue, and associated eigen vector
+Inspiration: https://www.scribd.com/document/264003151/Power-Method-Proof (proof is attached)
+'''
 def vonMisesIter(matrix, size, epoch):
 	X = np.random.rand(size, 1)
 	eival = 0
@@ -161,10 +180,12 @@ def vonMisesIter(matrix, size, epoch):
 		X = np.divide(Y, eival)
 	return eival, X
 
-# Algorithm 9: Floyd Cycle
-# Input(s): linkedlist
-# Output(s): index of linkedlist where loop begins (otherwise returns -1)
-# Runs in O(n) with no auxilary space
+'''
+Algorithm 10: Floyd Cycle
+Input(s): linkedlist
+Output(s): index of linkedlist where loop begins (otherwise returns -1)
+Runs in O(n) with no auxilary space
+'''
 def floydCycle(l):
 	slow, fast = l.head, l.head
 	if fast == None: # check if there is even a node
@@ -181,9 +202,22 @@ def floydCycle(l):
 					return slow.value
 	return -1
 
+'''
+Algorithm 11: Sterling (used to approximate gamma, which can be used for beta distribution)
+Input(s): Integer
+Output(s): Value
+'''
+def gamma(n): # = (n - 1)!
+	return math.exp( (n - 1) * math.log(n - 1) - (n - 1))
+
 #######################################################
 ### TESTS
 #######################################################
+def hornerTest():
+	assert horner([1, 2], 2) == 5; assert horner([1, 2, 3], 2) == 17
+	assert horner([2, 3], 1) == 5; assert horner([-1, 0, 1], 5) == 24
+	assert horner([1, -1], 2) == -1; assert horner([0, 1, 2], 4) == 36
+
 def isPrimeTest():
 	assert isPrime(1) == False; assert isPrime(2) == True
 	assert isPrime(3) == True; assert isPrime(4) == False
@@ -192,7 +226,7 @@ def isPrimeTest():
 def primeListTest():
 	assert primeList(1) == []
 	assert primeList(2) == [2]
-	assert primeList(3) == [2]
+	assert primeList(3) == [2, 3]
 	assert primeList(5) == [2, 3, 5]
 	assert primeList(8) == [2, 3, 5, 7]
 
@@ -276,7 +310,9 @@ def floydCycleTest():
 	#LL.check()
 	assert floydCycle(LL) == 19
 
+
 def mainTest():
+	hornerTest()
 	isPrimeTest()
 	primeListTest()
 	fastPowerTest()
